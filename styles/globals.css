@@ -1,0 +1,127 @@
+/* Tailwind base layers */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* App design tokens */
+:root {
+    /* App surfaces */
+    --background: 250 250 250; /* rgb */
+    --foreground: 17 24 39;    /* rgb slate-900-ish */
+
+    /* Brand colors */
+    --primary: 234 88 12;      /* orange-600 */
+    --primary-foreground: 255 255 255;
+
+    --secondary: 243 244 246;  /* gray-100 */
+    --secondary-foreground: 17 24 39;
+
+    --accent: 241 245 249;     /* slate-100 */
+    --accent-foreground: 15 23 42;
+
+    --destructive: 220 38 38;  /* red-600 */
+    --ring: 59 130 246;        /* blue-500 */
+
+    /* Nature theme used across sections */
+    --nature-forest: #14532d;  /* emerald-900-ish */
+    --nature-sage: #64748b;    /* slate-500 */
+    --nature-gradient-from: #ecfccb; /* lime-100 */
+    --nature-gradient-via: #bbf7d0;  /* green-100 */
+    --nature-gradient-to: #dbeafe;   /* blue-100 */
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: 15 23 42;          /* slate-900 */
+        --foreground: 241 245 249;       /* slate-100 */
+
+        --secondary: 30 41 59;           /* slate-800 */
+        --secondary-foreground: 241 245 249;
+
+        --accent: 51 65 85;              /* slate-700 */
+        --accent-foreground: 241 245 249;
+
+        --primary-foreground: 255 255 255;
+    }
+}
+
+/* Base element resets and defaults */
+@layer base {
+    html, body, #root {
+        height: 100%;
+    }
+
+    html {
+        -webkit-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        background-color: rgb(var(--background));
+        color: rgb(var(--foreground));
+        @apply antialiased;
+    }
+
+    /* Improve heading rendering consistency */
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-semibold tracking-tight;
+    }
+
+    /* Links inherit color by default */
+    a {
+        @apply text-inherit no-underline;
+    }
+
+    /* Buttons remove default focus outline; rely on ring utilities */
+    button {
+        @apply outline-none;
+    }
+}
+
+/* Utilities to map design tokens to class names used in components */
+@layer utilities {
+    .bg-background { background-color: rgb(var(--background)); }
+    .text-foreground { color: rgb(var(--foreground)); }
+
+    .bg-primary { background-color: rgb(var(--primary)); }
+    .text-primary-foreground { color: var(--primary-foreground); }
+    .bg-secondary { background-color: rgb(var(--secondary)); }
+    .text-secondary-foreground { color: rgb(var(--secondary-foreground)); }
+    .bg-accent { background-color: rgb(var(--accent)); }
+    .text-accent-foreground { color: rgb(var(--accent-foreground)); }
+    .bg-destructive { background-color: rgb(var(--destructive)); }
+
+    /* “Nature” theme helpers seen in sections */
+    .bg-nature-gradient {
+        background-image: linear-gradient(
+                180deg,
+                var(--nature-gradient-from) 0%,
+                var(--nature-gradient-via) 50%,
+                var(--nature-gradient-to) 100%
+        );
+    }
+    .text-nature-forest { color: var(--nature-forest); }
+    .text-nature-sage { color: var(--nature-sage); }
+
+    /* Focus ring token */
+    .focus-ring {
+        box-shadow: 0 0 0 3px color-mix(in oklab, rgb(var(--ring)) 50%, transparent);
+    }
+}
+
+/* Optional: nicer scrollbars */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in oklab, rgb(var(--foreground)) 20%, transparent) transparent;
+}
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, rgb(var(--foreground)) 20%, transparent);
+    border-radius: 9999px;
+}
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
